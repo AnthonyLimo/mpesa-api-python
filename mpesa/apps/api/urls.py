@@ -8,10 +8,17 @@ urlpatterns = [
     path('simulate', views.simulate, name='simulate'),
     path('balance', views.balance, name='balance'),
 
+
+    path('reversal', views.reversal, name='reversal'),
+    path('reversal/reversal_timeout', views.timeout_url, name="timeout_url"),
+    path('reversal/reversal_result', views.result_url, name="result_url"),
+    path('reversal/callback', views.call_back, name="call_back"),
+
+
     path('b2c', views.bussiness_to_consumer, name='bussiness_to_consumer'),
     path('b2c/timeout', views.b2c_timeout_url, name="b2c_timeout_url"),
     path('b2c/result', views.b2c_result_url, name="b2c_result_url"),
-    # path('b2c/callback', views.call_back, name="call_back"),
+    path('b2c/callback', views.call_back, name="call_back"),
 
 
     # register, confirmation, validation and callback urls

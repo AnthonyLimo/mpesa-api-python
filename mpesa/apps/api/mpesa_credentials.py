@@ -24,5 +24,9 @@ class LipanaMpesaPpassword:
     Test_c2b_shortcode = "600744"
     passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
     data_to_encode = Business_short_code + passkey + lipa_time
+
+    # encode our password to base64 string.
     online_password = base64.b64encode(data_to_encode.encode())
+
+    # decode our password to UTF-8
     decode_password = online_password.decode('utf-8')

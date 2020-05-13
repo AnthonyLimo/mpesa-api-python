@@ -27,7 +27,7 @@ SECRET_KEY = 'z6_fqmulkn7fa9&)j3yc%rekekup8$f7_yd3z+_bj41ne24m5m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['f112026d.ngrok.io', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 env = environ.Env(
     DEBUG=(bool, False)
@@ -84,9 +84,20 @@ WSGI_APPLICATION = 'mpesa.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 
+# DATABASES = {
+#     # read the database environ
+#     'default': env.db()
+# }
+
 DATABASES = {
-    # read the database environ
-    'default': env.db()
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'kite',
+        'USER': 'kite',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
 }
 
 # Password validation

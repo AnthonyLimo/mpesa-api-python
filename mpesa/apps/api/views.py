@@ -74,6 +74,49 @@ def balance(request):
     return HttpResponse(response.text)
 
 
+def bussiness_to_consumer(request):
+    access_token = MpesaAccessToken.validated_mpesa_access_token
+    api_url = "https://sandbox.safaricom.co.ke/mpesa/b2c/v1/paymentrequest"
+    headers = {"Authorization": "Bearer %s" % access_token}
+    request = {
+        "InitiatorName": "apitest342",
+        "SecurityCredential": "Q9KEnwDV/V1LmUrZHNunN40AwAw30jHMfpdTACiV9j+JofwZu0G5qrcPzxul+6nocE++U6ghFEL0E/5z/JNTWZ/pD9oAxCxOik/98IYPp+elSMMO/c/370Joh2XwkYCO5Za9dytVmlapmha5JzanJrqtFX8Vez5nDBC4LEjmgwa/+5MvL+WEBzjV4I6GNeP6hz23J+H43TjTTboeyg8JluL9myaGz68dWM7dCyd5/1QY0BqEiQSQF/W6UrXbOcK9Ac65V0+1+ptQJvreQznAosCjyUjACj35e890toDeq37RFeinM3++VFJqeD5bf5mx5FoJI/Ps0MlydwEeMo/InA==",
+        "CommandID": "BusinessPayment",
+        "Amount": "200",
+        "PartyA": "601342",
+        "PartyB": "254708374149",
+        "Remarks": "Salary for December",
+        "QueueTimeOutURL": "http://f112026d.ngrok.io/b2c_timeout_url",
+        "ResultURL": "http://f112026d.ngrok.io/b2c_result_url",
+        "Occasion": "DEC2019"
+    }
+    response = requests.post(api_url, json=request, headers=headers)
+    return HttpResponse(response.text)
+
+
+@csrf_exempt
+def call_back(request):
+    pass
+
+
+@csrf_exempt
+def b2c_timeout_url(request):
+    context = {
+        "ResultCode": 0,
+        "ResultDesc": "Timed out"
+    }
+    return JsonResponse(dict(context))
+
+
+@csrf_exempt
+def b2c_result_url(request):
+    context = {
+        "ResultCode": 0,
+        "ResultDesc": "Success"
+    }
+    return JsonResponse(dict(context))
+
+
 @csrf_exempt
 def register_urls(request):
     access_token = MpesaAccessToken.validated_mpesa_access_token
@@ -94,6 +137,8 @@ def call_back(request):
 
 @csrf_exempt
 def validation(request):
+    # import pdb
+    # pdb.set_trace()
     context = {
         "ResultCode": 0,
         "ResultDesc": "Accepted"
@@ -104,6 +149,8 @@ def validation(request):
 @csrf_exempt
 def confirmation(request):
     mpesa_body = request.body.decode('utf-8')
+    # import pdb
+    # pdb.set_trace()
     mpesa_payment = json.loads(mpesa_body)
     payment = MpesaPayment(
         first_name=mpesa_payment['FirstName'],

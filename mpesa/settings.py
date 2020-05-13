@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import environ
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,6 +28,11 @@ SECRET_KEY = 'z6_fqmulkn7fa9&)j3yc%rekekup8$f7_yd3z+_bj41ne24m5m'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+
 
 
 # Application definition
@@ -76,13 +83,11 @@ WSGI_APPLICATION = 'mpesa.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
+DATABASES = {
+    # read the database environ
+    'default': env.db()
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

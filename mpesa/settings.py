@@ -27,7 +27,7 @@ SECRET_KEY = 'z6_fqmulkn7fa9&)j3yc%rekekup8$f7_yd3z+_bj41ne24m5m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['f112026d.ngrok.io', '127.0.0.1', 'localhost']
 
 env = environ.Env(
     DEBUG=(bool, False)

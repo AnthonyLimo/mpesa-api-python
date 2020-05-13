@@ -38,7 +38,40 @@ def lipa_na_mpesa_online(request):
         "TransactionDesc": "Testing stk push"
     }
     response = requests.post(api_url, json=request, headers=headers)
-    return HttpResponse('success')
+    return HttpResponse(response.text)
+
+
+def simulate(request):
+    access_token = MpesaAccessToken.validated_mpesa_access_token
+    api_url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate"
+    headers = {"Authorization": "Bearer %s" % access_token}
+    request = {
+        "ShortCode": "600383",
+        "CommandID": "CustomerPayBillOnline",
+        "Amount": "100",
+        "Msisdn": "254708374149",
+        "BillRefNumber": "TestAPI"
+    }
+    response = requests.post(api_url, json=request, headers=headers)
+    return HttpResponse(response.text)
+
+
+def balance(request):
+    access_token = MpesaAccessToken.validated_mpesa_access_token
+    api_url = "https://sandbox.safaricom.co.ke/mpesa/accountbalance/v1/query"
+    headers = {"Authorization": "Bearer %s" % access_token}
+    request = {
+        "Initiator": "apitest342",
+        "SecurityCredential": "OEnTXfEBwUauXnrDkVKdHP4QUJm8Q7stMX/lqsOhHC2sn+9NL7/vNaS0PBlGpbBEkmGc5XAhN+K0FLiHjYKhjOCGRKlFzuSRqyPvToSfysQUNge/rP3dinYe3IS3y7VpFWyOwSTbc0+hM+aeFB3RNM3pzMZGaYT5n5nsBNC6HsGuzryIWzoJDX2K8Qtb/xkCWfCfON0VPl6Zs+sq2nATRELK1vj6DwZ2wemDmQ2v1967MtFwu6F9spYS4IRoDo/XyYUWq+N74N7ZhvTHOhMxFww5JETfn/BPo1FuXPRXlGImi45FzFKYct7cpE2bjf9y1lPrmnv33FIf9JXoC4SAZQ==",
+        "CommandID": "AccountBalance",
+        "PartyA": "600744",
+        "IdentifierType": "4",
+        "Remarks": "Remarks",
+        "QueueTimeOutURL": "http://197.248.86.122:801/timeout_url",
+        "ResultURL": "http://197.248.86.122:801/result_url"
+    }
+    response = requests.post(api_url, json=request, headers=headers)
+    return HttpResponse(response.text)
 
 
 @csrf_exempt
